@@ -28,7 +28,7 @@ let rightArrow = document.querySelector("#right");
 let actualIndex = 0;
 
 // Position par defaut du slider *************************
-// Attention au nommage des variable, elle ne doit pas avoir le même nom que des balise, sinon elle rentre en conflit
+// Attention au nommage des variable, elles ne doivent pas avoir le même nom que des balises déjà existante ou HTML, sinon elle rentre en conflit
 // Pour resoudre un des problème de nommage, j'ai du ajouter une id="slide" dans les balise img pour pouvoir toutes les récupérer dans le container "banner" sans faire apppel au balise img.
 slides.forEach((_, i) => {
   let imgSlide = document.createElement("img");
@@ -64,14 +64,15 @@ function movingSlide(actualIndex) {
   let dots = document.querySelectorAll("#banner .dot");
 
   for (let i = 0; i < imgSlide.length; i++) {
-    // utilisation d'une boucle for pour parcourir toutes mes image récupéré sous la variabel imgSlide
+    // position par défault des slides, masquage de tous les éléments pour pouvoir les afficher par la suite
+    // utilisation d'une boucle for pour parcourir toutes mes image récupéré sous la variable imgSlide
     imgSlide[i].classList.add("banner-img-none"); // récupération de chaque img réprésenter par la varibale imgSlide suivie de l'index [i] présent dans la boucle for
     imgSlide[i].classList.remove("banner-img"); // le [i] est tès important dans ce cas, il permet de cibler chaque élément imgSlide, sans l'index [i] le code s'appliquera à tous les imgSlide en même temps alors que nous voulons les cibler une par une.
     infoContent[i].style.display = "none"; // même logique pour toutes les autre variable qui utilise l'index [i]
     dots[i].classList.remove("dot_selected");
   }
 
-  imgSlide[actualIndex].classList.add("banner-img");
+  imgSlide[actualIndex].classList.add("banner-img"); // recupération des élément avec l'index "actualIndex" qui sera mis à jour, ajout des classe et style pour afficher les slides
   imgSlide[actualIndex].classList.remove("banner-img-none");
   infoContent[actualIndex].style.display = "block";
   dots[actualIndex].classList.add("dot_selected");
@@ -83,7 +84,7 @@ rightArrow.addEventListener("click", () => {
   actualIndex++; // incrémentation de l'index
   if (actualIndex > slides.length - 1) {
     // condition de bouclage "si notre actualIndex est supérieur à la quantité d'élément du tableaux - 1*".
-    actualIndex = 0; // si la condition est vrais
+    actualIndex = 0; // si la condition est vrais on reviens à 0, cad notre premier élément du tableau
   }
   movingSlide(actualIndex); // appel de la fonction pour parcourir nos éléments afin d'ajouter ou enlever une class ou style
 });
@@ -99,7 +100,7 @@ leftArrow.addEventListener("click", () => {
 
 // *attention le tableaux total appeler par la methode element.length compte les éléments à partir de 1.
 // Or les élément à l'interieur du tableaux commence à 0. C'est pour cela que nous faison "slides.length - 1"
-// cad la quatité d'éléments du talbeaux (4) moins - 1 ce qui donne l'élément [3] à l'interieur de notre tableaux.
+// cad la quantité d'éléments du talbeaux (4) - 1 ce qui donne l'élément [3] à l'interieur de notre tableaux.
 // si nous ne faisont pas - 1 le navigateur croit que nous voulons atteindre l'élément [4] de notre actualIndex et non notre élément [3]
-// Nous aurrion pu écrire comme condition de retour actualIndex = 3 est sela marcherai aussi mais ça n'écécite de mettre à jour notre code si le tableaux pocède un élément en plus.
+// Nous aurrion pu écrire comme condition de retour actualIndex = 3 est cela marcherai aussi mais ça n'écécite de mettre à jour notre code si le tableaux pocède un élément en plus.
 // En faisant acutelIndex - 1 ça permet de toujours aller au dernier élément à l'interieur de notre tableaux.
